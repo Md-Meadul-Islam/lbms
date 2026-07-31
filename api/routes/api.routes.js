@@ -1,11 +1,8 @@
 import { Router } from "express";
 
 import BusinessRoutes from "../modules/business/business.routes.js";
-
 import EmployeeRoutes from "../modules/people/employee/employee.routes.js";
-
 import CustomerRoutes from "../modules/people/customer/customer.routes.js";
-
 import CategoryRoutes from "../modules/catalog/category/category.routes.js";
 import ServiceRoutes from "../modules/catalog/service/service.routes.js";
 import ServicePriceRoutes from "../modules/catalog/service-price/servicePrice.routes.js";
@@ -15,6 +12,7 @@ import ServiceAssignmentRoutes from "../modules/catalog/service-assignment/servi
 import AppointmentRoutes from "../modules/appointment/appointment/appointment.routes.js";
 import AppointmentServiceRoutes from "../modules/appointment/appointment-service/appointmentService.routes.js";
 import AppointmentAddonRoutes from "../modules/appointment/appointment-addon/appointmentAddon.routes.js";
+import NotificationRoutes from "../modules/notification/notification.routes.js";
 
 const router = Router();
 
@@ -58,5 +56,7 @@ router.use("/service-assignments", ServiceAssignmentRoutes);
 router.use("/appointments", AppointmentRoutes);
 router.use("/appointment-services", AppointmentServiceRoutes);
 router.use("/appointment-addons", AppointmentAddonRoutes);
+
+router.use("/notifications", NotificationRoutes);
 
 export default router;
