@@ -35,3 +35,6 @@ export const nextSaleCode = (businessId) =>
 
 export const nextPurchaseCode = (businessId) =>
   nextSequence(businessId, SEQUENCE_CONFIG.PURCHASE);
+
+export const nextAppointmentCode = (businessId) =>
+  nextSequence(businessId, SEQUENCE_CONFIG.APPOINTMENT);
