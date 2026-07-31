@@ -8,6 +8,7 @@ import {
   NOTIFICATION_RECIPIENT_TYPES,
   NOTIFICATION_STATUS,
 } from "../../shared/constants/index.js";
+import { EventBus, NOTIFICATION_EVENTS } from "../../shared/events/index.js";
 
 class NotificationService extends BaseService {
   constructor() {
@@ -47,18 +48,11 @@ class NotificationService extends BaseService {
     */
 
   async afterCreate(notification) {
-    /*
-        |--------------------------------------------------------------------------
-        | Future
-        |--------------------------------------------------------------------------
-        |
-        | Socket.io
-        | Firebase Push
-        | Email
-        | SMS
-        | WhatsApp
-        |
-        */
+    EventBus.emit(
+      NOTIFICATION_EVENTS.CREATED,
+
+      notification,
+    );
 
     return notification;
   }
@@ -205,11 +199,19 @@ class NotificationService extends BaseService {
       return notification;
     }
 
-    return this.repository.markAsRead(
+    const updatedNotification = await this.repository.markAsRead(
       id,
 
       options,
     );
+
+    EventBus.emit(
+      NOTIFICATION_EVENTS.READ,
+
+      updatedNotification,
+    );
+
+    return updatedNotification;
   }
 
   /*
@@ -237,7 +239,7 @@ class NotificationService extends BaseService {
   async archive(id, options = {}) {
     await this.findById(id);
 
-    return this.repository.update(
+    const notification = await this.repository.update(
       id,
 
       {
@@ -246,6 +248,14 @@ class NotificationService extends BaseService {
 
       options,
     );
+
+    EventBus.emit(
+      NOTIFICATION_EVENTS.ARCHIVED,
+
+      notification,
+    );
+
+    return notification;
   }
 
   /*
@@ -257,11 +267,21 @@ class NotificationService extends BaseService {
   async delete(id, options = {}) {
     await this.findById(id);
 
-    return this.repository.delete(
+    const notification = await this.findById(id);
+
+    await this.repository.delete(
       id,
 
       options,
     );
+
+    EventBus.emit(
+      NOTIFICATION_EVENTS.DELETED,
+
+      notification,
+    );
+
+    return true;
   }
 
   /*

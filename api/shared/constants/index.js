@@ -3,6 +3,7 @@ export * from "./catalog.constants.js";
 export * from "./inventory.constants.js";
 export * from "./notification.constants.js";
 export * from "./sales.constants.js";
+export * from "./queue.constants.js";
 export * from "./status.js";
 
 export { default as ROLES } from "./roles.js";
