@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import ApiError from "../errors/ApiError.js";
 
 class BaseService {
@@ -37,12 +38,26 @@ class BaseService {
     |--------------------------------------------------------------------------
     */
 
-  async create(data) {
-    data = await this.beforeCreate(data);
+  async create(data, options = {}) {
+    if (this.beforeCreate) {
+      data = await this.beforeCreate(data);
+    }
 
-    const result = await this.repository.create(data);
+    const document = await this.repository.create(
+      data,
 
-    return this.afterCreate(result);
+      options,
+    );
+
+    if (this.afterCreate) {
+      await this.afterCreate(
+        document,
+
+        options,
+      );
+    }
+
+    return document;
   }
 
   async findById(id, options = {}) {
@@ -63,16 +78,32 @@ class BaseService {
     return this.repository.find(filter, options);
   }
 
-  async update(id, data) {
-    data = await this.beforeUpdate(id, data);
+  async update(id, data, options = {}) {
+    if (this.beforeUpdate) {
+      data = await this.beforeUpdate(
+        id,
 
-    const result = await this.repository.updateById(id, data);
-
-    if (!result) {
-      throw new ApiError(404, "Resource not found.");
+        data,
+      );
     }
 
-    return this.afterUpdate(result);
+    const document = await this.repository.update(
+      id,
+
+      data,
+
+      options,
+    );
+
+    if (this.afterUpdate) {
+      await this.afterUpdate(
+        document,
+
+        options,
+      );
+    }
+
+    return document;
   }
 
   async delete(id) {
@@ -99,6 +130,25 @@ class BaseService {
 
   async count(filter = {}) {
     return this.repository.count(filter);
+  }
+  async withTransaction(callback) {
+    const session = await mongoose.startSession();
+
+    session.startTransaction();
+
+    try {
+      const result = await callback(session);
+
+      await session.commitTransaction();
+
+      return result;
+    } catch (error) {
+      await session.abortTransaction();
+
+      throw error;
+    } finally {
+      session.endSession();
+    }
   }
 }
 export default BaseService;

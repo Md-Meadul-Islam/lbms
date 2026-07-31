@@ -16,13 +16,18 @@ class BaseRepository {
     */
 
   async create(data, options = {}) {
-    return this.model.create([data], options).then((docs) => docs[0]);
+    const document = new this.model(data);
+
+    return document.save(options);
   }
 
   async createMany(data, options = {}) {
-    return this.model.insertMany(data, options);
-  }
+    return this.model.insertMany(
+      data,
 
+      options,
+    );
+  }
   /*
     |--------------------------------------------------------------------------
     | Find One
@@ -96,6 +101,21 @@ class BaseRepository {
     | Update
     |--------------------------------------------------------------------------
     */
+  async update(id, data, options = {}) {
+    return this.model.findByIdAndUpdate(
+      id,
+
+      data,
+
+      {
+        new: true,
+
+        runValidators: true,
+
+        ...options,
+      },
+    );
+  }
 
   async updateById(id, data, options = {}) {
     let query = this.model.findByIdAndUpdate(id, data, {
@@ -121,8 +141,14 @@ class BaseRepository {
     return query;
   }
 
-  async updateMany(filter, data) {
-    return this.model.updateMany(filter, data);
+  async updateMany(filter, data, options = {}) {
+    return this.model.updateMany(
+      filter,
+
+      data,
+
+      options,
+    );
   }
 
   /*
@@ -130,7 +156,21 @@ class BaseRepository {
     | Delete
     |--------------------------------------------------------------------------
     */
+  async delete(id, options = {}) {
+    return this.model.findByIdAndUpdate(
+      id,
 
+      {
+        status: "deleted",
+      },
+
+      {
+        new: true,
+
+        ...options,
+      },
+    );
+  }
   async deleteById(id) {
     return this.model.findByIdAndDelete(id);
   }
