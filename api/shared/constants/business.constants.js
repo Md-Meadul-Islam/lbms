@@ -1,4 +1,4 @@
-const BUSINESS_TYPES = Object.freeze({
+export const BUSINESS_TYPES = Object.freeze({
   GROCERY: "grocery",
 
   PHARMACY: "pharmacy",
@@ -9,5 +9,3 @@ const BUSINESS_TYPES = Object.freeze({
 
   SMALL_SHOP: "small_shop",
 });
-
-export default BUSINESS_TYPES;

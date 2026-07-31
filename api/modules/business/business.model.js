@@ -139,7 +139,6 @@ businessSchema.index({
   businessType: 1,
 });
 
-
 const Business = mongoose.model("Business", businessSchema);
 
 export default Business;

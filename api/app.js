@@ -6,12 +6,10 @@ import morgan from "morgan";
 
 import env from "./config/env.js";
 import logger from "./config/logger.js";
+import routes from "./routes/index.js";
 
 import notFoundMiddleware from "./middleware/notFound.middleware.js";
 import errorMiddleware from "./middleware/error.middleware.js";
-
-import AuthRoutes from "./modules/auth/auth.routes.js";
-import BusinessRoutes from "./modules/business/business.routes.js";
 
 const app = express();
 
@@ -48,8 +46,7 @@ app.get("/health", (req, res) => {
 |--------------------------------------------------------------------------
 */
 
-app.use("/api/v1/auth", AuthRoutes);
-app.use("/api/v1/businesses", BusinessRoutes);
+app.use("/api", routes);
 
 app.use(notFoundMiddleware);
 
