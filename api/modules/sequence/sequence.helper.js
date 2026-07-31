@@ -15,6 +15,15 @@ export const nextCustomerCode = (businessId) =>
 export const nextServiceCode = (businessId) =>
   nextSequence(businessId, SEQUENCE_CONFIG.SERVICE);
 
+export const nextServicePriceCode = (businessId) =>
+  nextSequence(businessId, SEQUENCE_CONFIG.SERVICE);
+
+export const nextServiceAddonCode = (businessId) =>
+  nextSequence(businessId, SEQUENCE_CONFIG.SERVICE);
+
+export const nextServiceAddonPriceCode = (businessId) =>
+  nextSequence(businessId, SEQUENCE_CONFIG.SERVICE);
+
 export const nextCategoryCode = (businessId) =>
   nextSequence(businessId, SEQUENCE_CONFIG.SERVICE_CATEGORY);
 

@@ -9,3 +9,10 @@ export const BUSINESS_TYPES = Object.freeze({
 
   SMALL_SHOP: "small_shop",
 });
+
+export const COMMISSION_TYPES = {
+  PERCENTAGE: "percentage",
+  FIXED: "fixed",
+  PROFIT_PERCENTAGE: "profit_percentage",
+  TIERED: "tiered",
+};

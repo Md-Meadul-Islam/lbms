@@ -2,7 +2,7 @@ import BaseService from "../../../shared/base/BaseService.js";
 
 import ApiError from "../../../shared/errors/ApiError.js";
 
-import EmployeeRepository from "../../employee/employee.repository.js";
+import EmployeeRepository from "../../people/employee/employee.repository.js";
 
 import ServiceRepository from "../service/service.repository.js";
 

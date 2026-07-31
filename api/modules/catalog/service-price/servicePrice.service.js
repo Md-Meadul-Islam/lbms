@@ -204,3 +204,4 @@ class ServicePriceService extends BaseService {
     );
   }
 }
+export default new ServicePriceService();
