@@ -4,6 +4,8 @@ import { asyncHandler } from "../../shared/helpers/index.js";
 
 import NotificationService from "./notification.service.js";
 
+import { NOTIFICATION_MESSAGES } from "./notification.constants.js";
+
 class NotificationController extends BaseController {
   constructor() {
     super(NotificationService);
@@ -27,7 +29,7 @@ class NotificationController extends BaseController {
     return this.created(res, {
       data: notification,
 
-      message: "Notification created successfully.",
+      message: NOTIFICATION_MESSAGES.CREATED,
     });
   });
 
@@ -42,6 +44,7 @@ class NotificationController extends BaseController {
 
     return this.success(res, {
       data: notification,
+      message: NOTIFICATION_MESSAGES.FETCHED,
     });
   });
 
@@ -62,6 +65,7 @@ class NotificationController extends BaseController {
 
     return this.success(res, {
       data: notifications,
+      message: NOTIFICATION_MESSAGES.FETCHED_ALL,
     });
   });
 
@@ -82,6 +86,7 @@ class NotificationController extends BaseController {
 
     return this.success(res, {
       data: notifications,
+      message: NOTIFICATION_MESSAGES.FETCHED_ALL,
     });
   });
 
@@ -96,8 +101,7 @@ class NotificationController extends BaseController {
 
     return this.success(res, {
       data: notification,
-
-      message: "Notification marked as read.",
+      message: NOTIFICATION_MESSAGES.MARKED_AS_READ,
     });
   });
 
@@ -108,14 +112,10 @@ class NotificationController extends BaseController {
     */
 
   markAllAsRead = asyncHandler(async (req, res) => {
-    await this.service.markAllAsRead(
-      req.business._id,
-
-      req.params.recipientId,
-    );
+    await this.service.markAllAsRead(req.business._id, req.params.recipientId);
 
     return this.success(res, {
-      message: "All notifications marked as read.",
+      message: NOTIFICATION_MESSAGES.MARKED_ALL_AS_READ,
     });
   });
 
@@ -149,7 +149,7 @@ class NotificationController extends BaseController {
     await this.service.archive(req.params.id);
 
     return this.success(res, {
-      message: "Notification archived.",
+      message: NOTIFICATION_MESSAGES.ARCHIVED,
     });
   });
 
@@ -162,7 +162,7 @@ class NotificationController extends BaseController {
   delete = asyncHandler(async (req, res) => {
     await this.service.delete(req.params.id);
 
-    return this.deleted(res);
+    return this.deleted(res, { message: NOTIFICATION_MESSAGES.DELETED });
   });
 }
 
